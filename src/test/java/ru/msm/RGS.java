@@ -114,6 +114,7 @@ public class RGS extends BaseClass{
         //  Предпочитаемая дата контакта
         value = "18112021";
         valueAtt = String.format("%s.%s.%s", value.substring(0,2), value.substring(2,4), value.substring(4, 8));
+
         fillInputField("//form//*[@data-bind and @name='ContactDate']", value, valueAtt);
 
         //Комментарии
@@ -159,6 +160,7 @@ public class RGS extends BaseClass{
         waitUtilElementToBeClickable(element);
         element.click();
         element.clear();
+        element.click();
         element.sendKeys(value);
         boolean checkFlag = wait.until(ExpectedConditions.attributeContains(element, "value", valueAtt));
         Assertions.assertTrue(checkFlag, "Поле было заполнено некорректно");
@@ -231,20 +233,10 @@ public class RGS extends BaseClass{
     /**
      * Явное ожидание того что элемент станет видемым
      *
-     * @param element - веб элемент который мы ожидаем что будет  виден на странице
-     */
-    private void waitUtilElementToBeVisible(WebElement element) {
-        wait.until(ExpectedConditions.visibilityOf(element));
-    }
-
-    /**
-     * Явное ожидание того что элемент станет видемым
-     *
      * @param locator - локатор до веб элемент который мы ожидаем найти и который виден на странице
      */
     private void waitUtilElementToBeVisible(By locator) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
-
 
 }

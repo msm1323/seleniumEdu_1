@@ -21,7 +21,7 @@ public class BaseClass {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
 
-        defaultWaitingTime = 10;
+        defaultWaitingTime = 30;
         //driver.manage().timeouts().pageLoadTimeout(defaultWaitingTime, TimeUnit.SECONDS);
         driver.manage().timeouts().implicitlyWait(defaultWaitingTime, TimeUnit.SECONDS);
 
