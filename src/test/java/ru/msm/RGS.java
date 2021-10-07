@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -94,12 +95,11 @@ public class RGS extends BaseClass{
         //  Отчество
         fillInputField(String.format(fieldXPath, "MiddleName"), "Иванович");
 
-        //  Регион    (переделать?)
-        WebElement region = driver.findElement(By.xpath("//form//*[@data-bind and @name='Region']"));
-        region.click();
-        WebElement moscow = driver.findElement(By.xpath("//form//*[@data-bind and @name='Region']//option[@value='77']"));
-        moscow.click();
-        boolean checkFlag = wait.until(ExpectedConditions.attributeContains(region, "value", "77"));
+        //  Регион
+        Select regionS = new Select(driver.findElement(By.xpath("//form//*[@data-bind and @name='Region']")));
+        regionS.selectByVisibleText("Москва");
+
+        boolean checkFlag = wait.until(ExpectedConditions.attributeContains(regionS.getWrappedElement(), "value", "77"));
         Assertions.assertTrue(checkFlag, "Поле было заполнено некорректно");
 
         //  Эл. почта
@@ -190,11 +190,11 @@ public class RGS extends BaseClass{
             WebElement iframe = driver.findElement(iframeBy);
             driver.switchTo().frame(iframe);
             closeAdd(by);
-            driver.switchTo().parentFrame();
         } catch (NoSuchElementException ignore) {
 
         } finally {
             driver.manage().timeouts().implicitlyWait(defaultWaitingTime, TimeUnit.SECONDS);
+            driver.switchTo().parentFrame();
         }
     }
 
@@ -214,7 +214,7 @@ public class RGS extends BaseClass{
     /**
      * Скрол до элемента на js коде
      *
-     * @param element - веб элемент до которого нужно проскролить
+     * @param element - веб элемент, до которого нужно проскролить
      */
     private void scrollToElementJs(WebElement element) {
         JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;
